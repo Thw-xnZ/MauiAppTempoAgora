@@ -11,9 +11,11 @@ namespace MauiAppTempoAgora
         {
             InitializeComponent();
         }
-
+        // Botão para buscar a previsão do tempo com tratamento de erros
         private async void Button_Clicked(object sender, EventArgs e)
         {
+            // O try-catch aqui é usando para lidar com o problema de conexão com a internet, caso  o usuário esteja sem acesso
+            // ou se a conexão estiver lenta, dentre outros problemas de conectividade que possam ocorrer, mostrando uma mensagem de alerta.
             try
             {
                 if (!string.IsNullOrEmpty(txt_cidade.Text))
@@ -46,6 +48,8 @@ namespace MauiAppTempoAgora
                     lbl_resultado.Text = "Digite o nome de uma cidade.";
                 }
             }
+            // Os catchs abaixo são para lidar com os erros de conexão, mostrando mensagens específicas para cada tipo de erro,
+            // como falta de internet ou conexão lenta, além de um catch genérico para outros tipos de erros que possam ocorrer.
             catch (HttpRequestException)
             {
                 await DisplayAlert("Sem internet", "Verifique sua conexão e tente novamente.", "OK");
