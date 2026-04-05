@@ -30,13 +30,15 @@ namespace MauiAppTempoAgora
                                          $"Por do Sol: {t.sunset} \n" +
                                          $"Tempo Máx: {t.temp_max} \n" +
                                          $"Tempo Min: {t.temp_min} \n" +
+                                         $"Clima atual:  {t.description} \n" +
+                                         $"Velocidade: {t.speed} \n" +
                                          $"Visibilidade: {t.visibility} \n";
 
                         lbl_resultado.Text = dados_previsao;
                     }
                     else
                     {
-                        lbl_resultado.Text = "Cidade não encontrada.";
+                        lbl_resultado.Text = "Cidade não encontrada, certeza que está certo?";
                     }
                 }
                 else
@@ -44,9 +46,17 @@ namespace MauiAppTempoAgora
                     lbl_resultado.Text = "Digite o nome de uma cidade.";
                 }
             }
+            catch (HttpRequestException)
+            {
+                await DisplayAlert("Sem internet", "Verifique sua conexão e tente novamente.", "OK");
+            }
+            catch (TaskCanceledException)
+            {
+                await DisplayAlert("Conexão lenta", "A requisição demorou muito.", "OK");
+            }
             catch (Exception ex)
             {
-                await DisplayAlert("Putzz..", ex.Message, "OK");
+                await DisplayAlert("Erro", ex.Message, "OK");
             }
         }
     }
